@@ -5,9 +5,7 @@
 > **Status: [Complete]** A fully functional FES-based rehabilitation system featuring a low-latency, browser-based control interface via Web Bluetooth.
 
 ---
-
-![Project Image](https://placehold.co/800x400/99f6e4/115e59?text=RUBIflex+Final+Prototype)
-*(Replace this with a photo of the final device or a screenshot of your Web Interface)*
+<img width="1101" height="334" alt="Image" src="https://github.com/user-attachments/assets/9274c172-1370-4e25-8622-0ff737f7f243" />
 
 ## 1. The Problem
 
@@ -54,8 +52,8 @@ I served as the **Lead Electrical & Software Engineer (PIC)** for this project.
 * **Microcontroller:** `Seeed XIAO ESP32-C3`
 * **Driver:** `TB6612FNG` (Motor Driver used for Biphasic Pulse Generation)
 * **Connectivity:** `Web Bluetooth API` (BLE)
-* **Frontend:** `JavaScript`, `HTML5`, `CSS3`, `GitHub Pages`
-* **Design Tools:** `KiCad` (PCB), `Fusion360` (Enclosure)
+* **Frontend:** `JavaScript`, `HTML`, `CSS`, `GitHub Pages`
+* **Design Tools:** `EasyEDA` (PCB), `Fusion360` (Enclosure)
 
 ## 6. Proof & Key Results
 * **[Live Dashboard]:** Access the control dashboard here (requires a BLE-enabled browser like Chrome):
