@@ -1,41 +1,67 @@
-# RUBIflex: FES Neurorehabilitation System (Capstone Project)
+# RUBIflex: IoT Neurorehabilitation System for Brachial Plexus Injury
 
-**Tags:** `[Ongoing]`, `Capstone`, `Hardware`, `IoT`, `C++`, `ESP32`, `PCB Design`, `Web Dashboard`
+**Tags:** `Capstone`, `Web Bluetooth API`, `BLE`, `Seeed XIAO ESP32-C3`, `JavaScript`, `Medical Device`
 
-> **Status: [Ongoing]** This is our active final-year capstone design project (Desain Proyek Teknik Biomedik 2).
+> **Status: [Complete]** A fully functional FES-based rehabilitation system featuring a low-latency, browser-based control interface via Web Bluetooth.
 
 ---
-<img width="836" height="383" alt="Image" src="https://github.com/user-attachments/assets/e99c8434-ee56-4ee7-a807-f108d87508dc" />
+
+![Project Image](https://placehold.co/800x400/99f6e4/115e59?text=RUBIflex+Final+Prototype)
+*(Replace this with a photo of the final device or a screenshot of your Web Interface)*
 
 ## 1. The Problem
-Brachial Plexus Injury (BPI) often leads to partial or total arm paralysis, and recovery requires long-term, intensive rehabilitation. Functional Electrical Stimulation (FES) is a key therapy, but existing devices are often expensive, non-intuitive, or require constant clinical supervision, which limits at-home recovery.
+
+Brachial Plexus Injury (BPI) often leads to partial or total arm paralysis. Rehabilitation using Functional Electrical Stimulation (FES) is effective but often requires expensive, hospital-bound equipment. There is a need for an affordable, home-use device that is easy to control without complex infrastructure.
 
 ## 2. Our Solution
 
-Our team (Kelompok 7) is developing **RUBIflex**, an affordable, IoT-enabled neurorehabilitation system designed for automated motor recovery. The system uses FES to stimulate arm muscles, while an ESP32 microcontroller manages the stimulation patterns. The device is controlled by a simple web-based dashboard, allowing therapists to set up and monitor therapy remotely.
+**RUBIflex** is a wearable neurorehabilitation device that delivers electrical stimulation to restore motor function. Unlike traditional IoT devices that rely on cloud servers (increasing latency), RUBIflex utilizes a **Local-First** architecture.
 
-## 3. My Role & Key Contributions
+It features a **Web-Based Interface** (hosted on GitHub Pages) that communicates *directly* with the hardware using the **Web Bluetooth API**. This eliminates the need for internet connectivity during therapy, ensuring instant response times and higher safety standards.
 
-I am the **Person in Charge (PIC) of Electrical, IoT Control, and Webpage** for this team project.
+## 3. Technical Architecture & Implementation
 
-* **Current Status:**
-    * Designed the complete electrical system architecture and component layout.
-    * Wrote the initial `C++` (Arduino/ESP32) code for FES signal generation.
-    * Developed the first version of the web-based dashboard for IoT control.
-    * Designed the custom PCB (currently ordered for manufacturing).
-* **Responsibilities:**
-    * All hardware wiring and component integration.
-    * All firmware development for the ESP32.
-    * Finalizing the web dashboard and IoT communication.
-    * System troubleshooting and testing.
+The wireless control system integrates **Bluetooth Low Energy (BLE)** technology with a web interface. The architectural decisions prioritize low latency, which is critical for neural stimulation applications where device response must be instantaneous.
 
-## 4. Technology Stack
+### 3.1. Web-Based Interface (GitHub Pages)
+* **Hosting:** GitHub Pages serves the static HTML, CSS, and JavaScript files.
+* **Accessibility:** Users access a simple web link; the browser downloads the interface assets locally. No app installation is required, increasing accessibility for patients and clinicians.
+* **Logic:** Once loaded, client-side JavaScript initiates a scan for the BLE device using the **Web Bluetooth API**.
 
-* **Programming Languages:** `C++` (for hardware), `JavaScript` / `HTML` / `CSS` (for web)
-* **Hardware:** `ESP32`, `FES Electrodes`, `Custom PCB`, `Relay/Driver Circuits`
-* **Software & Tools:** `Arduino IDE`, `KiCad` / `EasyEDA`, `PlatformIO`, `GitHub`
+### 3.2. Hardware Control (Seeed XIAO ESP32-C3)
+* **Role:** The microcontroller acts as a **BLE Peripheral** (GATT Server).
+* **Service Structure:** Communication is defined by unique **Service UUIDs** and **Characteristic UUIDs** to separate control paths from sensor data paths.
+* **Control Flow:**
+    * **User Input:** When a user adjusts an amplitude slider on the web interface, JavaScript transmits binary data packets directly to the relevant characteristic on the ESP32-C3 via `writeValue()`.
+    * **Feedback Loop:** Kinetic data from flex sensors is sent back to the web interface via **BLE Notifications**, enabling real-time graphical monitoring.
 
-## 5. Project Status
+### 3.3. Why Web Bluetooth?
+* **Low Latency:** Point-to-point communication eliminates the variable latency of internet routing.
+* **Power Efficiency:** BLE consumes significantly less power than Wi-Fi, which is essential for a LiPo-battery-powered wearable.
+* **Reliability:** Direct communication minimizes connection failures caused by internet interference, as long as the device remains within Bluetooth range.
 
-**Status: [Ongoing]**
-*This is my active capstone project. The PCB has been designed and ordered, and the whole integration is in progress.*
+## 4. My Role & Key Contributions
+
+I served as the **Lead Electrical & Software Engineer (PIC)** for this project.
+
+* **System Architecture:** Designed the direct browser-to-hardware communication flow, bypassing traditional backend brokers to reduce latency.
+* **Firmware Engineering:** Programmed the Seeed XIAO ESP32-C3 to parse binary BLE packets and generate precise PWM signals for the H-Bridge driver (`TB6612FNG`).
+* **Web Development:** Built the responsive dashboard that handles BLE pairing, service discovery, and real-time data visualization using pure JavaScript.
+* **Fabrication:** Managed the integration of the high-voltage boost converter and safety isolation circuits onto the final PCB.
+
+## 5. Technology Stack
+
+* **Microcontroller:** `Seeed XIAO ESP32-C3`
+* **Driver:** `TB6612FNG` (Motor Driver used for Biphasic Pulse Generation)
+* **Connectivity:** `Web Bluetooth API` (BLE)
+* **Frontend:** `JavaScript`, `HTML5`, `CSS3`, `GitHub Pages`
+* **Design Tools:** `KiCad` (PCB), `Fusion360` (Enclosure)
+
+## 6. Proof & Key Results
+* **[Live Dashboard]:** Access the control dashboard here (requires a BLE-enabled browser like Chrome):
+    * **[RUBIflex Web Controller](https://hasanlathif.github.io/fes-remote/)**
+
+## 7. Project Status
+
+**Status: [Complete]**
+*This project was successfully completed, demonstrated, and passed the Final Semester Exam (UAS) for the Biomedical Engineering Capstone Design course.*
